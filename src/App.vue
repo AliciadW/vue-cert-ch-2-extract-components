@@ -18,15 +18,6 @@ function removeMovie(id) {
 }
 
 function editMovie(id) {
-  const movie = movies.value.find((movie) => movie.id === id);
-
-  form.id = movie.id;
-  form.name = movie.name;
-  form.description = movie.description;
-  form.image = movie.image;
-  form.inTheaters = movie.inTheaters;
-  form.genres = movie.genres;
-
   showForm(id);
 }
 
@@ -44,13 +35,21 @@ const validations = reactive({
   genres: "required",
 });
 
+const errors = reactive({
+  name: null,
+  description: null,
+  image: null,
+  inTheaters: null,
+  genres: null,
+});
+
 const validationRules = (rule) => {
   if (rule === "required") return /^ *$/;
 
   return null;
 };
 
-function validate() {
+function validate(form) {
   let valid = true;
   clearErrors();
   for (const [field, rule] of Object.entries(validations)) {
@@ -66,16 +65,16 @@ function validate() {
   return valid;
 }
 
-function saveMovie() {
+function saveMovie(form) {
   if (form.id) {
-    updateMovie();
+    updateMovie(form);
   } else {
-    addMovie();
+    addMovie(form);
   }
 }
 
-function updateMovie() {
-  if (validate()) {
+function updateMovie(form) {
+  if (validate(form)) {
     const movie = {
       id: form.id,
       name: form.name,
@@ -98,8 +97,8 @@ function updateMovie() {
   }
 }
 
-function addMovie() {
-  if (validate()) {
+function addMovie(form) {
+  if (validate(form)) {
     const movie = {
       id: Number(Date.now()),
       name: form.name,
@@ -172,7 +171,11 @@ function removeRatings() {
   <div class="app">
     <div v-if="showMovieForm" class="modal-wrapper">
       <div class="modal-wrapper-inner">
-        <MovieForm :modelValue />
+        <MovieForm
+          :modelValue
+          @cancel="hideForm"
+          @update:modelValue="saveMovie"
+        />
       </div>
     </div>
     <div class="movie-actions-list-wrapper">

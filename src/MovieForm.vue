@@ -2,6 +2,7 @@
 import { reactive, ref } from "vue";
 
 const props = defineProps(["modelValue"]);
+const emits = defineEmits(["update:modelValue", "cancel"]);
 
 const form = ref({ ...props.modelValue });
 
@@ -22,7 +23,7 @@ const errors = reactive({
 </script>
 
 <template>
-  <form @submit.prevent="saveMovie">
+  <form @submit.prevent="emits('update:modelValue', form)">
     <div class="movie-form-input-wrapper">
       <label for="name">Name</label>
       <input
@@ -89,7 +90,9 @@ const errors = reactive({
       </span>
     </div>
     <div class="movie-form-actions-wrapper">
-      <button type="button" class="button" @click="hideForm">Cancel</button>
+      <button type="button" class="button" @click="emits('cancel')">
+        Cancel
+      </button>
 
       <button type="submit" class="button-primary">
         <span v-if="form.id">Update</span>
