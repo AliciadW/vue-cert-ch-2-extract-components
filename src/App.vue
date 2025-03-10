@@ -1,9 +1,9 @@
 <script setup>
-import { computed, reactive, ref } from "vue";
 import MovieItem from "@/MovieItem.vue";
-
-import { items } from "./movies.json";
 import MovieForm from "@/MovieForm.vue";
+
+import { computed, ref } from "vue";
+import { items } from "./movies.json";
 
 const movies = ref(items);
 
@@ -21,7 +21,7 @@ function editMovie(id) {
   showForm(id);
 }
 
-const form = reactive({
+const form = ref({
   id: null,
   name: null,
   description: null,
@@ -30,12 +30,12 @@ const form = reactive({
   genres: null,
 });
 
-const validations = reactive({
+const validations = ref({
   name: "required",
   genres: "required",
 });
 
-const errors = reactive({
+const errors = ref({
   name: null,
   description: null,
   image: null,
@@ -66,7 +66,7 @@ function validate(form) {
 }
 
 function saveMovie(form) {
-  if (form.id) {
+  if (form.value.id) {
     updateMovie(form);
   } else {
     addMovie(form);
@@ -76,12 +76,12 @@ function saveMovie(form) {
 function updateMovie(form) {
   if (validate(form)) {
     const movie = {
-      id: form.id,
-      name: form.name,
-      description: form.description,
-      image: form.image,
-      genres: form.genres,
-      inTheaters: form.inTheaters,
+      id: form.value.id,
+      name: form.value.name,
+      description: form.value.description,
+      image: form.value.image,
+      genres: form.value.genres,
+      inTheaters: form.value.inTheaters,
       rating: 0,
     };
 
@@ -114,21 +114,21 @@ function addMovie(form) {
 }
 
 function cleanUpForm() {
-  form.id = null;
-  form.name = null;
-  form.description = null;
-  form.image = null;
-  form.genres = null;
-  form.inTheaters = false;
+  form.value.id = null;
+  form.value.name = null;
+  form.value.description = null;
+  form.value.image = null;
+  form.value.genres = null;
+  form.value.inTheaters = false;
   clearErrors();
 }
 
 function clearErrors() {
-  errors.name = null;
-  errors.description = null;
-  errors.image = null;
-  errors.genres = null;
-  errors.inTheaters = null;
+  errors.value.name = null;
+  errors.value.description = null;
+  errors.value.image = null;
+  errors.value.genres = null;
+  errors.value.inTheaters = null;
 }
 
 const showMovieForm = ref(false);

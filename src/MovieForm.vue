@@ -1,19 +1,19 @@
 <script setup>
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 
 const props = defineProps(["modelValue"]);
 const emits = defineEmits(["update:modelValue", "cancel"]);
 
 const form = ref({ ...props.modelValue });
 
-const genres = reactive([
+const genres = ref([
   { text: "Drama", value: "Drama" },
   { text: "Crime", value: "Crime" },
   { text: "Action", value: "Action" },
   { text: "Comedy", value: "Comedy" },
 ]);
 
-const errors = reactive({
+const errors = ref({
   name: null,
   description: null,
   image: null,
