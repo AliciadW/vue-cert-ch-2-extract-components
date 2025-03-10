@@ -27,16 +27,9 @@ function editMovie(id) {
   form.inTheaters = movie.inTheaters;
   form.genres = movie.genres;
 
-  showForm();
+  showForm(id);
 }
 
-const errors = reactive({
-  name: null,
-  description: null,
-  image: null,
-  inTheaters: null,
-  genres: null,
-});
 const form = reactive({
   id: null,
   name: null,
@@ -45,17 +38,11 @@ const form = reactive({
   inTheaters: false,
   genres: null,
 });
+
 const validations = reactive({
   name: "required",
   genres: "required",
 });
-
-const genres = reactive([
-  { text: "Drama", value: "Drama" },
-  { text: "Crime", value: "Crime" },
-  { text: "Action", value: "Action" },
-  { text: "Comedy", value: "Comedy" },
-]);
 
 const validationRules = (rule) => {
   if (rule === "required") return /^ *$/;
@@ -146,14 +133,19 @@ function clearErrors() {
 }
 
 const showMovieForm = ref(false);
+const modelValue = ref({});
 
 function hideForm() {
   showMovieForm.value = false;
   cleanUpForm();
 }
 
-function showForm() {
+function showForm(id = null) {
   showMovieForm.value = true;
+
+  if (id) {
+    modelValue.value = movies.value.find((movie) => movie.id === id);
+  }
 }
 
 const averageRating = computed(() => {
@@ -180,7 +172,7 @@ function removeRatings() {
   <div class="app">
     <div v-if="showMovieForm" class="modal-wrapper">
       <div class="modal-wrapper-inner">
-        <MovieForm />
+        <MovieForm :modelValue />
       </div>
     </div>
     <div class="movie-actions-list-wrapper">

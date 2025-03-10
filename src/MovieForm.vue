@@ -1,4 +1,25 @@
-<script setup></script>
+<script setup>
+import { reactive, ref } from "vue";
+
+const props = defineProps(["modelValue"]);
+
+const form = ref({ ...props.modelValue });
+
+const genres = reactive([
+  { text: "Drama", value: "Drama" },
+  { text: "Crime", value: "Crime" },
+  { text: "Action", value: "Action" },
+  { text: "Comedy", value: "Comedy" },
+]);
+
+const errors = reactive({
+  name: null,
+  description: null,
+  image: null,
+  inTheaters: null,
+  genres: null,
+});
+</script>
 
 <template>
   <form @submit.prevent="saveMovie">
