@@ -1,13 +1,31 @@
 <script setup>
 import { computed, reactive, ref } from "vue";
-/*
-These are Icons that you can use, of course you can use other ones if you prefer.
-*/
-
-import { items } from "./movies.json";
 import MovieItem from "@/MovieItem.vue";
 
+import { items } from "./movies.json";
+
 const movies = ref(items);
+
+function updateRating(movieIndex, rating) {
+  movies.value[movieIndex].rating = rating;
+}
+
+function removeMovie(movieIndex) {
+  movies.value = movies.value.filter((movie, index) => index !== movieIndex);
+}
+
+function editMovie(movieIndex) {
+  const movie = movies.value[movieIndex];
+
+  form.id = movie.id;
+  form.name = movie.name;
+  form.description = movie.description;
+  form.image = movie.image;
+  form.inTheaters = movie.inTheaters;
+  form.genres = movie.genres;
+
+  showForm();
+}
 
 const errors = reactive({
   name: null,
