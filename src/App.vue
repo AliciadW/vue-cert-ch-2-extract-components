@@ -6,16 +6,18 @@ import { items } from "./movies.json";
 
 const movies = ref(items);
 
-function updateRating(movieIndex, rating) {
-  movies.value[movieIndex].rating = rating;
+function updateRating(id, rating) {
+  const movie = movies.value.find((movie) => movie.id === id);
+
+  movie.rating = rating;
 }
 
-function removeMovie(movieIndex) {
-  movies.value = movies.value.filter((movie, index) => index !== movieIndex);
+function removeMovie(id) {
+  movies.value = movies.value.filter((movie) => id !== movie.id);
 }
 
-function editMovie(movieIndex) {
-  const movie = movies.value[movieIndex];
+function editMovie(id) {
+  const movie = movies.value.find((movie) => movie.id === id);
 
   form.id = movie.id;
   form.name = movie.name;
@@ -285,7 +287,12 @@ function removeRatings() {
     </div>
     <div class="movie-list">
       <div class="movie-item group" v-for="movie in movies" :key="movie.id">
-        <MovieItem :movie />
+        <MovieItem
+          :movie
+          @edit="editMovie"
+          @remove="removeMovie"
+          @update:rating="updateRating"
+        />
       </div>
     </div>
   </div>

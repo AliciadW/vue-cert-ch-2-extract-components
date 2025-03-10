@@ -58,7 +58,7 @@ const notRated = computed(() => {
           class="movie-item-star-icon-button"
           :class="[star <= movie.rating ? 'text-yellow-500' : 'text-gray-500']"
           :disabled="star === movie.rating"
-          @click="emits('update:rating', movie.id)"
+          @click="emits('update:rating', movie.id, star)"
         >
           <StarIcon class="movie-item-star-icon" />
         </button>
