@@ -20,10 +20,80 @@ const errors = ref({
   inTheaters: null,
   genres: null,
 });
+
+const validations = ref({
+  name: "required",
+  genres: "required",
+});
+
+const validationRules = (rule) => {
+  if (rule === "required") return /^ *$/;
+
+  return null;
+};
+
+function validate(form) {
+  let valid = true;
+
+  clearErrors();
+
+  for (const [field, rule] of Object.entries(validations)) {
+    const validation = validationRules(rule);
+    if (validation) {
+      if (validation.test(form[field] || "")) {
+        errors[field] = `${field} is ${rule}`;
+        valid = false;
+      }
+    }
+  }
+
+  return valid;
+}
+
+function cleanUpForm() {
+  form.value.id = null;
+  form.value.name = null;
+  form.value.description = null;
+  form.value.image = null;
+  form.value.genres = null;
+  form.value.inTheaters = false;
+
+  clearErrors();
+}
+
+function clearErrors() {
+  errors.value.name = null;
+  errors.value.description = null;
+  errors.value.image = null;
+  errors.value.genres = null;
+  errors.value.inTheaters = null;
+}
+
+const cancelAction = () => {
+  cleanUpForm();
+
+  emits("cancel");
+};
+
+const saveMovie = () => {
+  if (validate()) {
+    const data = {
+      id: form.value.id || Number(Date.now()),
+      name: form.value.name,
+      description: form.value.description,
+      image: form.value.image,
+      genres: form.value.genres,
+      inTheaters: form.value.inTheaters,
+      rating: form.value.rating,
+    };
+
+    emits("update:modelValue", data);
+  }
+};
 </script>
 
 <template>
-  <form @submit.prevent="emits('update:modelValue', form)">
+  <form @submit.prevent="saveMovie">
     <div class="movie-form-input-wrapper">
       <label for="name">Name</label>
       <input
@@ -90,9 +160,7 @@ const errors = ref({
       </span>
     </div>
     <div class="movie-form-actions-wrapper">
-      <button type="button" class="button" @click="emits('cancel')">
-        Cancel
-      </button>
+      <button type="button" class="button" @click="cancelAction">Cancel</button>
 
       <button type="submit" class="button-primary">
         <span v-if="form.id">Update</span>
