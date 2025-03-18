@@ -1,8 +1,8 @@
 <script setup>
 import { XMarkIcon } from "@heroicons/vue/24/solid";
 
-const props = defineProps({ title: { type: [String, null] } });
-const emit = defineEmits(["close"]);
+defineProps({ title: { type: [String, null], default: null } });
+defineEmits(["close"]);
 </script>
 
 <template>
@@ -10,7 +10,7 @@ const emit = defineEmits(["close"]);
     <div class="modal-wrapper-inner">
       <div class="flex justify-between">
         <h3 v-if="title">{{ title }}</h3>
-        <button @click="emit('close')">
+        <button @click="$emit('close')">
           <XMarkIcon class="movie-modal-close-icon" />
         </button>
       </div>
