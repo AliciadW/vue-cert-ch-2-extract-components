@@ -1,9 +1,11 @@
 <script setup>
 import MovieItem from "@/MovieItem.vue";
-import MovieForm from "@/MovieForm.vue";
-import AppModal from "@/AppModal.vue";
 
-import { computed, ref } from "vue";
+// async components
+const AppModal = defineAsyncComponent(() => import("@/AppModal.vue"));
+const MovieForm = defineAsyncComponent(() => import("@/MovieForm.vue"));
+
+import { computed, defineAsyncComponent, ref } from "vue";
 import { items } from "./movies.json";
 
 const movies = ref(items);
