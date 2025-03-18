@@ -155,7 +155,6 @@
     @apply h-5 w-5;
 }
 
-
 .movie-item-actions-list-wrapper {
     @apply group-hover:flex shrink-0 hidden items-center justify-end space-x-2;
 }
@@ -170,4 +169,8 @@
 
 .flex-spacer {
     @apply w-full flex-1;
+}
+
+.movie-modal-close-icon {
+    @apply h-5 w-5;
 }
