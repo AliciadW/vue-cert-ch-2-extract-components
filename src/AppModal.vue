@@ -19,5 +19,3 @@ defineEmits(["close"]);
     </div>
   </div>
 </template>
-
-<style scoped></style>
