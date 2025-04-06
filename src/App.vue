@@ -88,10 +88,9 @@ function removeRatings() {
 <template>
   <div class="app">
     <AppModal
-      v-if="showMovieForm"
+      :show="showMovieForm"
       :title="currentMovie ? 'Update movie' : 'Add movie'"
       @close="hideForm"
-      @update:modelValue="saveMovie"
     >
       <MovieForm
         :modelValue="currentMovie"
