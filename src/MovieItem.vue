@@ -1,9 +1,17 @@
 <script setup>
-import { PencilIcon, StarIcon, TrashIcon } from "@heroicons/vue/24/solid";
+import {
+  PencilIcon,
+  StarIcon,
+  TrashIcon,
+  EyeIcon,
+} from "@heroicons/vue/24/solid";
 import { computed } from "vue";
+import { useRouter } from "vue-router";
 
 const props = defineProps(["movie"]);
 const emits = defineEmits(["edit", "remove", "update:rating"]);
+
+const router = useRouter();
 
 const notRated = computed(() => {
   return props.movie.rating === 0;
@@ -76,6 +84,12 @@ const notRated = computed(() => {
           @click="emits('remove', movie.id)"
         >
           <TrashIcon class="w-4 h-4" />
+        </button>
+        <button
+          class="movie-item-action-edit-button"
+          @click="router.push({ name: 'movie', params: { id: movie.id } })"
+        >
+          <EyeIcon class="w-4 h-4" />
         </button>
       </div>
     </div>

@@ -7,10 +7,12 @@ import "../style.css";
 
 const routes = [
   {
+    name: "home",
     path: "/",
     component: MovieList,
   },
   {
+    name: "movie",
     path: "/:id",
     component: MovieView,
   },
