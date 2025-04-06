@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, useTemplateRef, onMounted } from "vue";
 
 const props = defineProps(["modelValue"]);
 const emits = defineEmits(["update:modelValue", "cancel"]);
@@ -25,6 +25,8 @@ const validations = ref({
   name: "required",
   genres: "required",
 });
+
+const nameInput = useTemplateRef("name-input");
 
 const validationRules = (rule) => {
   if (rule === "required") return /^ *$/;
@@ -90,6 +92,10 @@ const saveMovie = () => {
     emits("update:modelValue", data);
   }
 };
+
+onMounted(() => {
+  nameInput.value.focus();
+});
 </script>
 
 <template>
@@ -97,6 +103,7 @@ const saveMovie = () => {
     <div class="movie-form-input-wrapper">
       <label for="name">Name</label>
       <input
+        ref="name-input"
         type="text"
         name="name"
         v-model="form.name"
