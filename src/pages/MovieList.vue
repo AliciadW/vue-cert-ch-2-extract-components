@@ -136,5 +136,3 @@ function removeRatings() {
     </div>
   </div>
 </template>
-
-<style scoped></style>
